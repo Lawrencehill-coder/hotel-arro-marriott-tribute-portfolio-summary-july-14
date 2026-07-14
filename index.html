@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Arro — Post-Call Reference</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; font-size: 11px; color: #111; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { max-width: 1000px; margin: 0 auto; padding: 28px 36px; }
+
+  .hdr { border-bottom: 3px solid #333; padding-bottom: 10px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .hdr-left .eyebrow { font-size: 8px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 4px; }
+  .hdr-left .main-title { font-size: 20px; font-weight: 700; color: #111; }
+  .hdr-left .sub { font-size: 10px; color: #555; margin-top: 3px; }
+  .hdr-right { text-align: right; font-size: 9px; color: #666; line-height: 1.8; }
+
+  .status-bar { background: #f0f8ff; border-left: 3px solid #1a3a7a; padding: 7px 12px; margin-bottom: 12px; font-size: 10px; font-weight: 700; color: #1a3a7a; }
+
+  .sec { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #fff; background: #333; padding: 4px 8px; margin-bottom: 8px; margin-top: 14px; }
+  .sec.red { background: #c0392b; }
+  .sec.green { background: #2a6010; }
+  .sec.blue { background: #1a3a7a; }
+  .sec.amber { background: #8a5a00; }
+
+  .col3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .col2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .sh { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #555; letter-spacing: 0.08em; border-bottom: 1.5px solid #ccc; padding-bottom: 3px; margin-bottom: 7px; }
+
+  table.dt { width: 100%; border-collapse: collapse; }
+  table.dt tr { border-bottom: 1px solid #ebebeb; }
+  table.dt tr:last-child { border-bottom: none; }
+  table.dt td { padding: 4px 0; font-size: 10px; line-height: 1.4; }
+  table.dt td.l { color: #555; width: 48%; }
+  table.dt td.v { font-weight: 700; color: #111; }
+  table.dt td.v.red { color: #900; }
+  table.dt td.v.grn { color: #2a6010; }
+  table.dt tr.flag td { background: #fdf8e8; }
+  table.dt tr.good td { background: #f0f8ea; }
+  table.dt tr.alert td { background: #fdf0f0; }
+
+  .trow { display: flex; gap: 12px; padding: 5px 0; border-bottom: 1px solid #ebebeb; font-size: 10px; }
+  .trow:last-child { border-bottom: none; }
+  .t-date { min-width: 68px; color: #888; font-size: 9px; flex-shrink: 0; padding-top: 1px; }
+  .t-text { color: #333; line-height: 1.5; }
+  .t-flag { font-weight: 700; color: #2a6010; }
+  .t-flag.red { color: #c0392b; }
+
+  .change-tbl { width: 100%; border-collapse: collapse; font-size: 10px; }
+  .change-tbl th { font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 8px; text-align: left; }
+  .change-tbl th.h1 { background: #c0392b; color: #fff; width: 22%; }
+  .change-tbl th.h2 { background: #888; color: #fff; width: 34%; }
+  .change-tbl th.h3 { background: #2a6010; color: #fff; width: 44%; }
+  .change-tbl td { padding: 5px 8px; border-bottom: 1px solid #e8e8e8; vertical-align: top; line-height: 1.45; }
+  .change-tbl tr:last-child td { border-bottom: none; }
+  .change-tbl tr:nth-child(even) td { background: #fafafa; }
+  .change-tbl td.ci { font-weight: 700; color: #222; }
+  .change-tbl td.co { color: #999; text-decoration: line-through; }
+  .change-tbl td.cn { font-weight: 700; color: #111; }
+
+  .quote-box { background: #fafafa; border-left: 3px solid #888; padding: 7px 12px; font-size: 10px; color: #333; line-height: 1.6; margin: 6px 0; font-style: italic; }
+  .quote-box .who { font-style: normal; font-weight: 700; color: #555; font-size: 9px; text-transform: uppercase; margin-bottom: 3px; }
+
+  .dickson-box { border: 2px solid #333; background: #fafafa; padding: 10px 14px; }
+  .dickson-title { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #333; letter-spacing: 0.08em; margin-bottom: 7px; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+  .dickson-item { font-size: 10px; color: #222; padding: 5px 0; border-bottom: 1px solid #e8e8e8; line-height: 1.5; display: flex; gap: 8px; }
+  .dickson-item:last-child { border-bottom: none; }
+  .d-bullet { color: #333; font-weight: 700; flex-shrink: 0; min-width: 14px; }
+
+  .nda-box { background: #fff8e8; border: 2px solid #c0a000; padding: 10px 14px; }
+  .nda-title { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #8a5a00; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .nda-body { font-size: 10px; color: #333; line-height: 1.6; }
+
+  .next-row { display: flex; gap: 10px; padding: 6px 0; border-bottom: 1px solid #ebebeb; font-size: 10px; line-height: 1.5; }
+  .next-row:last-child { border-bottom: none; }
+  .next-num { min-width: 18px; font-weight: 700; color: #1a3a7a; flex-shrink: 0; }
+
+  .contacts { width: 100%; border-collapse: collapse; }
+  .contacts tr { border-bottom: 1px solid #ebebeb; }
+  .contacts tr:last-child { border-bottom: none; }
+  .contacts td { padding: 4px 0; font-size: 10px; line-height: 1.4; }
+  .contacts td.role { color: #888; width: 18%; font-size: 9px; text-transform: uppercase; letter-spacing: 0.04em; padding-right: 8px; }
+
+  .footer { border-top: 2px solid #333; margin-top: 18px; padding-top: 8px; }
+  .footer-top { display: flex; justify-content: space-between; font-size: 8px; color: #666; }
+  .footer-ver { font-size: 7px; color: #aaa; text-align: right; margin-top: 3px; }
+
+  .print-btn { background: none; border: 1.5px solid #bbb; color: #666; padding: 4px 12px; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; margin-bottom: 7px; font-family: Arial, sans-serif; }
+  .print-btn:hover { border-color: #333; color: #333; }
+
+  @media print {
+    @page { size: letter portrait; margin: 0.4in; }
+    .print-btn { display: none !important; }
+    .page { padding: 0; max-width: 100%; }
+    body { zoom: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hdr">
+    <div class="hdr-left">
+      <button class="print-btn" onclick="window.print()">&#128424; Print to PDF</button>
+      <div class="eyebrow">Pedison USA Corporation &nbsp;|&nbsp; Post-Call Summary &nbsp;|&nbsp; July 14, 2026</div>
+      <div class="main-title">Hotel Arro &nbsp;/&nbsp; Marriott Tribute Portfolio &nbsp;|&nbsp; Kanab, Utah</div>
+      <div class="sub">$10M Preferred Equity &nbsp;|&nbsp; Source: Ivan Jerskey, Southwell Capital Markets &nbsp;|&nbsp; Sponsor: Paul Bringhurst &nbsp;|&nbsp; Call Duration: 55 minutes</div>
+    </div>
+    <div class="hdr-right">
+      Mr. Dickson Ewemade, Founder &amp; CEO &nbsp;|&nbsp; Pedison USA<br>
+      Lawrence Hill, Sr. Manager, Structured Finance<br>
+      Ivan Jerskey, Southwell Capital Markets<br>
+      Paul Bringhurst, CFO / Partner, Hotel Arro<br>
+    </div>
+  </div>
+
+  <div class="status-bar">NEXT STEP &mdash; Mr. Dickson would like to explore this deal further. Paul has agreed to prepare a one-page project summary. NDA not yet signed &mdash; must be executed before deal vetting begins. No commitments of any kind have been made.</div>
+
+  <!-- ROW 1: PROJECT / CAPITAL STACK / TIMELINE -->
+  <div class="col3">
+    <div>
+      <div class="sh">Project Facts &mdash; Confirmed on Call</div>
+      <table class="dt">
+        <tr><td class="l">Asset</td><td class="v">Hotel Arro &mdash; Marriott Tribute Portfolio</td></tr>
+        <tr><td class="l">Brand</td><td class="v">Marriott Premier Portfolio / Bonvoy</td></tr>
+        <tr><td class="l">Location</td><td class="v">740 E Kanaplex Dr, Kanab (Canab), UT 84741</td></tr>
+        <tr><td class="l">Total site</td><td class="v">101 Acres</td></tr>
+        <tr><td class="l">Development started</td><td class="v">November 2023</td></tr>
+        <tr><td class="l">Land seller</td><td class="v">State of Utah (RFP award)</td></tr>
+        <tr><td class="l">Land instrument</td><td class="v">Patent deed (not warranty deed)</td></tr>
+        <tr><td class="l">Hotel Phase 2 patent</td><td class="v">Weeks away from transfer</td></tr>
+        <tr><td class="l">Townhomes / WFH (Phase 1/1A)</td><td class="v grn">Fee title already transferred</td></tr>
+        <tr><td class="l">Hotel keys</td><td class="v">120 keys</td></tr>
+        <tr><td class="l">Total branded residences</td><td class="v">200 units (full master plan)</td></tr>
+        <tr><td class="l">Original full project scope</td><td class="v">$235M (200 residences + hotel)</td></tr>
+        <tr><td class="l">4 buildings on site</td><td class="v">Hotel / Warehouse / Outfitter / Restaurant</td></tr>
+        <tr><td class="l">74 single family lots</td><td class="v">Almost all papered</td></tr>
+        <tr><td class="l">Hotel DSCR with 14 units</td><td class="v grn">1.3x (comfortable)</td></tr>
+        <tr class="alert"><td class="l">Hotel DSCR without 14 units</td><td class="v red">Very thin (risk)</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="sh">Capital Stack &amp; Debt &mdash; Full 101 Acres</div>
+      <table class="dt">
+        <tr><td class="l">Total hotel development cost</td><td class="v">$81,200,000</td></tr>
+        <tr><td class="l">EB-5 senior debt</td><td class="v">$49,400,000</td></tr>
+        <tr><td class="l">C-PACE (Nuveen)</td><td class="v">$13,600,000</td></tr>
+        <tr><td class="l">PID Bond #1 (spent)</td><td class="v">$8.3M net (horizontal complete)</td></tr>
+        <tr><td class="l">PID Bond #2</td><td class="v">In process</td></tr>
+        <tr><td class="l">Sponsor equity (out of pocket)</td><td class="v">$8,000,000 (mostly soft costs)</td></tr>
+        <tr><td class="l">Total injected to date</td><td class="v">~$16M ($8M sponsor + $8.3M PID)</td></tr>
+        <tr class="flag"><td class="l">Preferred equity ask</td><td class="v">$10,000,000</td></tr>
+        <tr class="flag"><td class="l">Pref use: Hotel equity stack</td><td class="v">$5,000,000</td></tr>
+        <tr class="flag"><td class="l">Pref use: 8 new townhomes</td><td class="v">$5,000,000</td></tr>
+        <tr><td class="l">Existing LP raised to date</td><td class="v">~$600,000 (Series B)</td></tr>
+        <tr class="good"><td class="l">Debt on hotel parcel (Phase 2)</td><td class="v grn">ZERO &mdash; clean</td></tr>
+        <tr><td class="l">Cypress Credit Union loan</td><td class="v">~$3M total &mdash; 6 townhome units only</td></tr>
+        <tr class="alert"><td class="l">Bridge loan (Phase 5 lots)</td><td class="v red">$1.5M first lien</td></tr>
+        <tr class="alert"><td class="l">Total debt across 101 acres</td><td class="v red">~$4.5M</td></tr>
+        <tr><td class="l">LTC target</td><td class="v">65% (sponsor covers 35%)</td></tr>
+        <tr class="good"><td class="l">SEC filings</td><td class="v grn">None &mdash; confirmed on call</td></tr>
+        <tr class="good"><td class="l">Placement agent / BD contracted</td><td class="v grn">None &mdash; confirmed by Ivan on call</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="sh">Timeline &mdash; As Confirmed on Call</div>
+      <table class="dt">
+        <tr><td class="l">EB-5 approval expected</td><td class="v">September 2026</td></tr>
+        <tr class="alert"><td class="l">EB-5 lender preference</td><td class="v red">Close Sept/Oct &mdash; fund Jan 2027</td></tr>
+        <tr><td class="l">Bridge being sought (Ivan)</td><td class="v">Senior lender Sept to Jan</td></tr>
+        <tr><td class="l">Best case vertical start</td><td class="v grn">September 2026 (if capital now)</td></tr>
+        <tr><td class="l">Expected vertical start</td><td class="v">January 2027</td></tr>
+        <tr><td class="l">Hotel construction duration</td><td class="v">18 months</td></tr>
+        <tr><td class="l">Hotel open (original target)</td><td class="v">May 2028</td></tr>
+        <tr><td class="l">Hotel open (revised)</td><td class="v">July 2028 (if Jan 2027 start)</td></tr>
+        <tr><td class="l">6 townhomes complete target</td><td class="v">Feb 2027 (Aug + 6 months)</td></tr>
+        <tr><td class="l">Townhomes per building</td><td class="v">4 units / ~$2M per building (Cypress)</td></tr>
+        <tr><td class="l">Full sellout (200 units)</td><td class="v">Through ~2032</td></tr>
+        <tr><td class="l">What site looks like today</td><td class="v">Mass graded, curb and gutter started, sewer and storm drain complete, 2 townhome buildings vertical with exteriors done and interiors in progress</td></tr>
+      </table>
+
+      <div class="sh" style="margin-top:12px;">Return Structure &mdash; Paul's Exact Words</div>
+      <table class="dt">
+        <tr><td class="l">Series B (8%)</td><td class="v">Condo buyer deposit only. Converts to down payment on unit purchase. NOT LP equity.</td></tr>
+        <tr class="good"><td class="l">Series A (LP equity)</td><td class="v grn">~30% IRR return</td></tr>
+        <tr class="good"><td class="l">With common share give-up</td><td class="v grn">Higher than 30%</td></tr>
+        <tr><td class="l">Alternative structure</td><td class="v">Townhome net proceeds to pref first. Sponsor willing to restructure entirely.</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- VERBATIM QUOTES -->
+  <div class="sec blue">Key Verbatim Quotes &mdash; Confirmed on Transcript</div>
+  <div class="col2">
+    <div>
+      <div class="sh">Mr. Dickson &mdash; On EB-5 and Government</div>
+      <div class="quote-box">
+        <div class="who">Mr. Dickson (attributed via Lawrence):</div>
+        "I don't like dealing with government. It's my private money if I'm doing it. I want people to respect me for my money. The idea of me beating myself and putting myself at the mercy of city council members... I don't have that patience."
+      </div>
+      <div class="quote-box">
+        <div class="who">Mr. Dickson on fragmentation:</div>
+        "Why don't you just send me a one page summary where we are and what we need to do. Then if I can use my capital to exit all this fragmentation, we now know we'll have a clean deal on the table... I know I can get this done quickly."
+      </div>
+      <div class="quote-box">
+        <div class="who">Mr. Dickson on in-person meeting:</div>
+        "I'm going to come and meet with all the board in charge of this project. Look at everybody in the face and we shake hands. Sit across the table. Walk through the project before we start."
+      </div>
+    </div>
+    <div>
+      <div class="sh">Paul Bringhurst &mdash; On Returns and Restructuring</div>
+      <div class="quote-box">
+        <div class="who">Paul on Series A LP return:</div>
+        "The LP is Series A and it's actually close to a 30% IRR return."
+      </div>
+      <div class="quote-box">
+        <div class="who">Paul on willingness to restructure:</div>
+        "We've only raised like 600 grand under this structure. And so if this structure didn't work for you at all, we could buy out those existing investors and completely change the structure."
+      </div>
+      <div class="quote-box">
+        <div class="who">Paul on unbootstrapping:</div>
+        "Boy, I would love to unbootstrap it. So, if somebody had enough capital to come in and reorganize it and get it clean, I'd be delighted."
+      </div>
+      <div class="quote-box">
+        <div class="who">Paul on the one-pager:</div>
+        "I appreciate your candor. Happy to put that one page together."
+      </div>
+    </div>
+  </div>
+
+  <!-- NDA BOX -->
+  <div class="sec amber">NDA Status &mdash; Action Required Before Vetting</div>
+  <div class="nda-box">
+    <div class="nda-title">No NDA Has Been Signed &mdash; Mr. Dickson Raised This on the Call</div>
+    <div class="nda-body">
+      Mr. Dickson explicitly stated on the call: <em>"I hope if there's any disclosures we haven't signed NDA, we need to sign all of that. If I'm going to get involved right now to make sure we are so I don't sit on a project since November 2023."</em>
+      <br><br>
+      Paul acknowledged this on the call. The NDA must be requested from Paul or Ivan and executed before Pedison shares any proprietary analysis, engages legal counsel on the deal, or advances to any form of structured diligence. This is the second action item after receipt of the one-pager.
+    </div>
+  </div>
+
+  <!-- CORRECTIONS TABLE -->
+  <div class="sec red">Record Corrections &mdash; Prior Documents vs. Call Confirmed Facts</div>
+  <table class="change-tbl">
+    <tr><th class="h1">Item</th><th class="h2">Previously Documented</th><th class="h3">Confirmed on Call &mdash; Correct Version</th></tr>
+    <tr><td class="ci">Sponsor CFO name</td><td class="co">Paul Brunstein</td><td class="cn">Paul Bringhurst</td></tr>
+    <tr><td class="ci">D.A. Davidson contact</td><td class="co">Sean Elder</td><td class="cn">Sam Elder</td></tr>
+    <tr><td class="ci">Credit union name</td><td class="co">Local credit union (unnamed)</td><td class="cn">Cypress Credit Union. Two loans totaling ~$3M on 6 condominiumized townhome units only. Zero encumbrance on hotel parcel.</td></tr>
+    <tr><td class="ci">PID entity name</td><td class="co">Unknown</td><td class="cn">Ventana Public Infrastructure District. Government agency formed and controlled by the sponsor. Steve Lasky is chair and principal developer.</td></tr>
+    <tr><td class="ci">GC / partner identity</td><td class="co">Turn-2 Construction (unnamed CEO)</td><td class="cn">Turn 2 Construction, Denver. CEO: Darren Spradling. Personally a 25% sponsor/investor. GC and equity partner simultaneously.</td></tr>
+    <tr><td class="ci">Hotel construction duration</td><td class="co">20 months</td><td class="cn">18 months (Paul confirmed)</td></tr>
+    <tr><td class="ci">Existing LP raised</td><td class="co">~$700,000 from 5 investors</td><td class="cn">~$600,000 (Paul: "we've only raised like 600 grand under this structure")</td></tr>
+    <tr><td class="ci">Additional debt on 101 acres</td><td class="co">Not documented</td><td class="cn">$1.5M bridge loan (first lien) on Phase 5 single family lots. Total debt across 101 acres: ~$4.5M.</td></tr>
+    <tr><td class="ci">Series B 8% nature</td><td class="co">LP preferred return offer</td><td class="cn">Condo buyer deposit instrument only. Converts to unit down payment. NOT institutional LP equity. Series A LP is ~30% IRR (Paul confirmed).</td></tr>
+    <tr><td class="ci">Land ownership status</td><td class="co">Purchase complete, fee title held</td><td class="cn">Patent deed instrument. Hotel (Phase 2): patent weeks away. Townhomes and workforce housing (Phase 1/1A): fee title already transferred.</td></tr>
+    <tr><td class="ci">PID bond status</td><td class="co">One PID bond in process</td><td class="cn">PID Bond #1 complete: $12M gross / $8.3M net to project (horizontal done). PID Bond #2 is the current one in the capital stack.</td></tr>
+    <tr><td class="ci">Original project scope</td><td class="co">Not documented</td><td class="cn">$235M (200 branded residences + 120 hotel keys financed together). Broke apart due to LP capital gap.</td></tr>
+    <tr><td class="ci">Placement agent / BD</td><td class="co">Not documented</td><td class="cn">No placement agent or broker dealer has been contracted for this project. Ivan confirmed on call.</td></tr>
+    <tr><td class="ci">Paul's background</td><td class="co">First project 2015 at Acumen</td><td class="cn">First project 2015. Was Director of Real Estate at Reef Capital Partners. Led Black Desert Resort ($440M, 447 keys, 299 condos, 18-hole golf). No longer with Reef. Never independently raised LP equity before this project.</td></tr>
+  </table>
+
+  <!-- MR. DICKSON POSITION + KEY PEOPLE -->
+  <div class="col2">
+    <div>
+      <div class="sec">Mr. Dickson's Stated Positions &mdash; Confirmed on Call</div>
+      <div class="dickson-box">
+        <div class="dickson-title">What Mr. Dickson Said &mdash; On Record</div>
+        <div class="dickson-item"><span class="d-bullet">+</span><span>Open to exploring the deal further. Appreciates Paul's candor. No commitments made.</span></div>
+        <div class="dickson-item"><span class="d-bullet">+</span><span>Loves the deal more knowing LP gap is the core problem. <em>"That is what we do every day."</em></span></div>
+        <div class="dickson-item"><span class="d-bullet">+</span><span>Willing to sign the NDA and proceed to vetting once the one-pager is received from Paul.</span></div>
+        <div class="dickson-item"><span class="d-bullet">+</span><span>Vision: use capital to exit all existing fragmentation. Clean the deal. Take the full 101 acres. Remove all current creditors, participants, and lenders.</span></div>
+        <div class="dickson-item"><span class="d-bullet">+</span><span>LP equity at 35 to 40% is the correct structure. <em>"LP is going to be the way to go."</em></span></div>
+        <div class="dickson-item"><span class="d-bullet">+</span><span>Will come to the site in person. Meet all board members face to face before any capital is deployed.</span></div>
+        <div class="dickson-item"><span class="d-bullet">x</span><span>Will NOT take second position. Pedison requires first lien on any deal.</span></div>
+        <div class="dickson-item"><span class="d-bullet">x</span><span>Zero interest in EB-5 or any structure that makes Pedison beholden to government approval timelines, city officials, or any contingent government process.</span></div>
+        <div class="dickson-item"><span class="d-bullet">x</span><span>Will not continue on the current fragmented, bootstrapped path. <em>"Too many woods on the fire."</em></span></div>
+        <div class="dickson-item"><span class="d-bullet">x</span><span>8% does not attract LP today. Paul clarified this was the Series B condo instrument only. Series A LP return is ~30% IRR. Mr. Dickson's concern was resolved.</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="sec blue">Key People &mdash; Confirmed on Call</div>
+      <table class="contacts">
+        <tr><td class="role">Sponsor CFO</td><td><strong>Paul Bringhurst</strong> &mdash; Partner / CFO. Former Director of Real Estate, Reef Capital Partners. Led $440M Black Desert Resort (447 keys, 299 condos, 18-hole golf, St. George UT). No longer with Reef. First independent LP raise is this project.</td></tr>
+        <tr><td class="role">Developer</td><td><strong>Steve Lasky</strong> &mdash; Principal developer and chair of the Ventana Public Infrastructure District board.</td></tr>
+        <tr><td class="role">GC / Partner</td><td><strong>Darren Spradling</strong> &mdash; CEO, Turn 2 Construction, Denver. Personally a 25% sponsor/investor. GC and equity partner simultaneously.</td></tr>
+        <tr><td class="role">Broker</td><td><strong>Ivan Jerskey</strong> &mdash; Southwell Capital Markets. jerskey@southwellco.net &nbsp;|&nbsp; (415) 797-7232. Hired by Paul to broker LP equity and debt. Was largely quiet on call. Attempted to reframe the deal as a bridge loan taken out by townhome proceeds &mdash; Mr. Dickson declined.</td></tr>
+        <tr><td class="role">PID Bond</td><td><strong>Sam Elder</strong> &mdash; D.A. Davidson (law firm / bond underwriter). Utah and Denver offices. Same firm used on Black Desert Resort.</td></tr>
+        <tr><td class="role">Townhome lender</td><td><strong>Cypress Credit Union</strong> &mdash; ~$3M total on 6 condominiumized units only. 6-month extension approved. No encumbrance on hotel parcel.</td></tr>
+        <tr><td class="role">Pedison lead</td><td><strong>Lawrence Hill</strong> &mdash; lawrencehill@pedisonusa.com &nbsp;|&nbsp; (214) 710-1233 Ext. 115</td></tr>
+        <tr><td class="role">Decision maker</td><td><strong>Mr. Dickson Ewemade</strong> &mdash; Founder &amp; CEO, Pedison USA Corporation. 30+ years in finance. In business since 1999. Same office since 2003.</td></tr>
+      </table>
+
+      <div class="sh" style="margin-top:12px;">Why the Deal Stalled &mdash; Paul &amp; Ivan on Record</div>
+      <div style="font-size:10px; color:#333; line-height:1.6; padding:4px 0;">
+        LP equity dried up during the 2022 to 2023 interest rate cycle. Ivan and Paul's LP rolodex is thin &mdash; they pivoted toward senior debt and gap financing and never developed deep LP relationships. Paul previously relied on Reef Capital's internal investment committee and had never independently raised LP equity before this project. Ivan acknowledged Southwell does not specialize in LP. No broker dealer or placement agent has been contracted. Paul summed it up: <em>"Boy, I would love to unbootstrap it."</em> Mr. Dickson's response: <em>"That is what we do every day."</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- IVAN'S BRIDGE PIVOT ATTEMPT -->
+  <div class="sec amber">Note &mdash; Ivan's Bridge Loan Pivot Attempt on Call</div>
+  <div style="font-size:10px; color:#333; line-height:1.6; padding:6px 0 10px;">
+    Near the close of the call, Ivan attempted to reframe the $10M pref equity ask as a bridge loan to be taken out by townhome sale proceeds, positioning it as an alternative to EB-5 dependency. Mr. Dickson's response was direct: <em>"If the EB-5 participation takes me out of the deal, I'm not comfortable infusing capital into it."</em> Mr. Dickson made clear he does not want his exit contingent on any government process or third-party approval timeline. This reframe was not accepted and the one-pager requested by Mr. Dickson should reflect the deal as Paul originally described it without EB-5 as any component of the exit or repayment structure.
+  </div>
+
+  <!-- NEXT STEPS -->
+  <div class="sec green">Next Steps &mdash; Action Items Coming Out of This Call</div>
+  <div class="next-row"><span class="next-num">1</span><span><strong>Paul to deliver one-page project summary.</strong> Confirmed on call. Paul said: "Happy to put that one page together." Lawrence to follow up with Ivan today to confirm Paul is preparing this immediately. Mr. Dickson's direction: short, sweet, specific, and concise. Exactly where the project is today. No fluff.</span></div>
+  <div class="next-row"><span class="next-num">2</span><span><strong>NDA to be requested and executed.</strong> Mr. Dickson raised this explicitly on the call. The NDA must be received from the sponsor and signed before Pedison shares any proprietary analysis or advances to any structured diligence. Request NDA from Ivan or Paul alongside the one-pager.</span></div>
+  <div class="next-row"><span class="next-num">3</span><span><strong>Investment banker review.</strong> Mr. Dickson stated: "Once I receive that one-pager, I'll put my investment banker on the phone. We sit down and we talk. We come up with a structure." This is Pedison's internal next step once the one-pager and NDA are in hand.</span></div>
+  <div class="next-row"><span class="next-num">4</span><span><strong>Darren Spradling / Turn 2 Construction vetting.</strong> GC is a 25% equity partner. Dual role needs to be evaluated. Request track record, financials, and bonding capacity as part of full diligence.</span></div>
+  <div class="next-row"><span class="next-num">5</span><span><strong>Hotel Phase 2 patent deed confirmation.</strong> Paul said weeks away from transfer. Pedison should not advance to formal engagement until the patent deed is confirmed signed and recorded. Request written confirmation.</span></div>
+  <div class="next-row"><span class="next-num">6</span><span><strong>EB-5 dependency must be removed from any proposed structure.</strong> Mr. Dickson will not participate in any deal where Pedison's position, exit, or repayment is contingent on EB-5 approval or government timelines. Any one-pager or deal structure brought forward must address this cleanly.</span></div>
+  <div class="next-row"><span class="next-num">7</span><span><strong>In-person site visit and board meeting.</strong> Mr. Dickson stated his intention to come to the site and meet all principals face to face before any capital is deployed. Schedule to be determined once NDA is signed and vetting advances.</span></div>
+
+  <div class="footer">
+    <div class="footer-top">
+      <span>Pedison USA Corporation &nbsp;|&nbsp; 8111 LBJ Freeway, Suite 110, Dallas TX 75251 &nbsp;|&nbsp; pedisonusa.com &nbsp;|&nbsp; Confidential &nbsp;|&nbsp; Internal Use Only</span>
+      <span>Hotel Arro / Marriott Tribute &mdash; Post-Call Reference &mdash; July 14, 2026</span>
+    </div>
+    <div class="footer-ver" id="ver"></div>
+  </div>
+
+</div>
+<script>
+(function(){
+  var now=new Date(), mm=String(now.getMonth()+1).padStart(2,'0'), dd=String(now.getDate()).padStart(2,'0'),
+      yy=now.getFullYear(), hh=String(now.getHours()).padStart(2,'0'), mn=String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('ver').textContent='LH-'+yy+mm+dd+'-'+hh+mn;
+})();
+</script>
+</body>
+</html>
